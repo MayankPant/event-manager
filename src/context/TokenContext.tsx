@@ -7,6 +7,7 @@ interface AuthProvider {
   isLoading: boolean;
   login(username: string, password: string): Promise<boolean>;
   logout(): void;
+  isAdmin: boolean;
 }
 
 export const TokenContext = createContext<AuthProvider>({
@@ -25,4 +26,5 @@ export const TokenContext = createContext<AuthProvider>({
     // Default implementation, can be replaced with actual logic
     console.log("Logging out");
   },
+  isAdmin: false
 });

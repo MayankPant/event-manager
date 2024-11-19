@@ -16,7 +16,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [loginButtonLoader, setLoginButtonLoader] = useState<boolean>(false);
   const [signupButtonLoader, setSignupButtonLoader] = useState<boolean>(false);
-  const {login, isAuthenticated} = React.useContext(TokenContext);
+  const {login, isAuthenticated, isAdmin} = React.useContext(TokenContext);
 
 
 
@@ -62,7 +62,7 @@ const Login = () => {
   };
 
     if(isAuthenticated)
-        return <Navigate to={'/dashboard'} />
+        return isAdmin ?  <Navigate to={'/manager'} /> : <Navigate to={'/employee'} />
 
   return (
     <div style={styles} className="login-wrapper">

@@ -12,6 +12,7 @@ const AuthProvider = (props: PropType) => {
   const [refreshToken, setRefreshToken] = React.useState("");
   const [isAuthenticated, setIsAutheticated] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isAdmin, setIsAdmin] = React.useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -28,7 +29,7 @@ const AuthProvider = (props: PropType) => {
   const login = async (username: string, password: string) => {
     const loginUrl =
       process.env.REACT_APP_AUTH_BASE_ADDRESS !== undefined
-        ? process.env.REACT_APP_AUTH_BASE_ADDRESS.concat("/api/auth/login")
+        ? process.env.REACT_APP_AUTH_BASE_ADDRESS.concat("/api/auth/login/")
         : "";
     console.log("Login Url: ", loginUrl);
     console.log("Entered username: ", username);
@@ -42,13 +43,14 @@ const AuthProvider = (props: PropType) => {
       console.log("Returned Response from login: ", response);
       if (response.status === 200) {
         // set the loggedIn state and token described in <App />
-        console.log("Recieved JWT Access token: ", response.data.accessToken);
-        console.log("Recieved JWT refresh token: ", response.data.refreshToken);
+        console.log("Recieved JWT Access token: ", response.data.access);
+        console.log("Recieved JWT refresh token: ", response.data.refresh);
 
-        setAccessToken(response.data.accessToken);
-        setRefreshToken(response.data.refreshToken);
+        setAccessToken(response.data.access);
+        setRefreshToken(response.data.refresh);
         setIsAutheticated(true);
         setIsLoading(false);
+        setIsAdmin(response.data.is_admin);
         return true;
       }
       else{
@@ -79,6 +81,7 @@ const AuthProvider = (props: PropType) => {
           isLoading,
           login,
           logout,
+          isAdmin,
         }}
       >
         {props.children}
