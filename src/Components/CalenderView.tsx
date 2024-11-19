@@ -5,27 +5,18 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayjs from 'dayjs';
+import data  from '../events';
 
-interface CalendarEvent {
-  id: string;
-  title: string;
-  start: string;
-  end?: string;
-  allDay?: boolean;
-  color?: string;
-  recurrence?: {
-    frequency: 'daily' | 'weekly' | 'monthly';
-    count?: number;
-    until?: string;
-  };
-}
 
 interface CalendarViewProps {
   userRole: 'manager' | 'employee';
 }
 
 const CalendarView: React.FC<CalendarViewProps> = ({ userRole }) => {
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [events, setEvents] = useState<CalendarEvent[]>(data);
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | undefined>(
+    
+  );
 
   const generateRecurringEvents = (event: CalendarEvent): CalendarEvent[] => {
     if (!event.recurrence) return [event];
@@ -96,6 +87,38 @@ const CalendarView: React.FC<CalendarViewProps> = ({ userRole }) => {
     }
   };
 
+  const renderEventContent = (eventInfo: any) => {
+    return (
+      <div>
+        <b>{eventInfo.event.title}</b>
+        <div>
+          <button onClick={() => handleEditEvent(eventInfo.event.id)}>Edit</button>
+        </div>
+      </div>
+    );
+  };
+
+  const handleEditEvent = (eventId: string) => {
+    const event = events.find((e) => e.id === eventId);
+    if (event?.recurrence) {
+      const updateAll = window.confirm('Update all instances of this recurring event?');
+      if (updateAll) {
+        // Edit all instances
+        const updatedEvents = events.map((e) =>
+          e.id.startsWith(event.id) ? { ...e, ...e.recurrence } : e
+        );
+        setEvents(updatedEvents);
+      } else {
+        // Edit only the selected instance
+        setSelectedEvent(event);
+      }
+    } else {
+      setSelectedEvent(event);
+    }
+  };
+  
+  
+
   const handleEventClick = (clickInfo: EventClickArg) => {
     if (window.confirm(`Delete event '${clickInfo.event.title}'?`)) {
       setEvents((prevEvents) => prevEvents.filter((event) => event.id !== clickInfo.event.id));
@@ -120,6 +143,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ userRole }) => {
         eventClick={handleEventClick}
         eventColor="#2196F3"
         nowIndicator
+        eventContent={renderEventContent}
       />
     </div>
   );

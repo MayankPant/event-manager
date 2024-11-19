@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface EventFormProps {
-  availableTags: string[]; // List of all tags
-  onCreateEvent: (event: any) => void; // Callback to create an event
+  availableTags: string[];
+  selectedEvent?: CalendarEvent | null;
+  onCreateOrUpdateEvent: (event: CalendarEvent) => void;
 }
 
-const EventForm: React.FC<EventFormProps> = ({ availableTags, onCreateEvent }) => {
+const EventForm: React.FC<EventFormProps> = ({ availableTags, selectedEvent, onCreateOrUpdateEvent }) => {
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (selectedEvent) {
+      setEventName(selectedEvent.title);
+      setEventDate(selectedEvent.start);
+      setSelectedTags(selectedEvent.tags || []);
+    }
+  }, [selectedEvent]);
 
   const handleTagToggle = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -24,8 +33,8 @@ const EventForm: React.FC<EventFormProps> = ({ availableTags, onCreateEvent }) =
       return;
     }
 
-    onCreateEvent({
-      id: Date.now().toString(),
+    onCreateOrUpdateEvent({
+      id: selectedEvent?.id || Date.now().toString(),
       title: eventName,
       start: eventDate,
       tags: selectedTags,
@@ -38,7 +47,7 @@ const EventForm: React.FC<EventFormProps> = ({ availableTags, onCreateEvent }) =
 
   return (
     <div>
-      <h3>Create Event</h3>
+      <h3>{selectedEvent ? 'Edit Event' : 'Create Event'}</h3>
       <div>
         <input
           type="text"
@@ -65,7 +74,7 @@ const EventForm: React.FC<EventFormProps> = ({ availableTags, onCreateEvent }) =
           </label>
         ))}
       </div>
-      <button onClick={handleSubmit}>Create Event</button>
+      <button onClick={handleSubmit}>{selectedEvent ? 'Update Event' : 'Create Event'}</button>
     </div>
   );
 };
