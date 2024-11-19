@@ -14,9 +14,10 @@ interface CalendarEvent {
     color?: string;
     recurrence?: {
       frequency: 'daily' | 'weekly' | 'monthly';
-      count?: number; // Number of occurrences (e.g., 10 occurrences)
-      until?: string; // End date for recurrence
+      count?: number;
+      until?: string;
     };
+    tags?: string[]; // Array of tag names
   }
   
 

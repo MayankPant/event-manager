@@ -1,34 +1,39 @@
 import React, { useState } from 'react';
 
-const TagManager: React.FC = () => {
-  const [tags, setTags] = useState<string[]>([]);
+interface TagManagerProps {
+  tags: string[]; // Existing tags
+  onAddTag: (tag: string) => void;
+  onDeleteTag: (tag: string) => void;
+}
+
+const TagManager: React.FC<TagManagerProps> = ({ tags, onAddTag, onDeleteTag }) => {
   const [newTag, setNewTag] = useState('');
 
-  const addTag = () => {
-    if (newTag && !tags.includes(newTag)) {
-      setTags([...tags, newTag]);
+  const handleAddTag = () => {
+    if (newTag.trim() && !tags.includes(newTag)) {
+      onAddTag(newTag.trim());
       setNewTag('');
+    } else {
+      alert('Tag already exists or is empty!');
     }
-  };
-
-  const removeTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
   };
 
   return (
     <div>
-      <h2>Manage Tags</h2>
-      <input
-        type="text"
-        placeholder="New Tag"
-        value={newTag}
-        onChange={(e) => setNewTag(e.target.value)}
-      />
-      <button onClick={addTag}>Add Tag</button>
+      <h3>Tag Management</h3>
+      <div>
+        <input
+          type="text"
+          placeholder="Enter a new tag"
+          value={newTag}
+          onChange={(e) => setNewTag(e.target.value)}
+        />
+        <button onClick={handleAddTag}>Add Tag</button>
+      </div>
       <ul>
         {tags.map((tag) => (
           <li key={tag}>
-            {tag} <button onClick={() => removeTag(tag)}>Delete</button>
+            {tag} <button onClick={() => onDeleteTag(tag)}>Delete</button>
           </li>
         ))}
       </ul>

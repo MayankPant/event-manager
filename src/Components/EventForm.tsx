@@ -1,28 +1,45 @@
 import React, { useState } from 'react';
 
 interface EventFormProps {
-  userRole: 'manager' | 'employee';
-  selectedEmployee?: string | null;
+  availableTags: string[]; // List of all tags
+  onCreateEvent: (event: any) => void; // Callback to create an event
 }
 
-const EventForm: React.FC<EventFormProps> = ({ userRole, selectedEmployee }) => {
+const EventForm: React.FC<EventFormProps> = ({ availableTags, onCreateEvent }) => {
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
-  const [isRecurring, setIsRecurring] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const handleTagToggle = (tag: string) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
 
   const handleSubmit = () => {
-    console.log({
-      eventName,
-      eventDate,
-      isRecurring,
-      assignedTo: userRole === 'manager' ? selectedEmployee : null,
+    if (!eventName || !eventDate) {
+      alert('Event name and date are required!');
+      return;
+    }
+
+    onCreateEvent({
+      id: Date.now().toString(),
+      title: eventName,
+      start: eventDate,
+      tags: selectedTags,
     });
+
+    setEventName('');
+    setEventDate('');
+    setSelectedTags([]);
   };
 
   return (
     <div>
-      <h2>Create Event</h2>
-      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+      <h3>Create Event</h3>
+      <div>
         <input
           type="text"
           placeholder="Event Name"
@@ -34,24 +51,21 @@ const EventForm: React.FC<EventFormProps> = ({ userRole, selectedEmployee }) => 
           value={eventDate}
           onChange={(e) => setEventDate(e.target.value)}
         />
-        {userRole === 'manager' && (
-          <div>
-            <label>
-              Assign to Employee:
-              <span>{selectedEmployee || 'None'}</span>
-            </label>
-          </div>
-        )}
-        <label>
-          <input
-            type="checkbox"
-            checked={isRecurring}
-            onChange={() => setIsRecurring(!isRecurring)}
-          />
-          Recurring Event
-        </label>
-        <button type="submit">Save Event</button>
-      </form>
+      </div>
+      <div>
+        <h4>Select Tags</h4>
+        {availableTags.map((tag) => (
+          <label key={tag} style={{ marginRight: '10px' }}>
+            <input
+              type="checkbox"
+              checked={selectedTags.includes(tag)}
+              onChange={() => handleTagToggle(tag)}
+            />
+            {tag}
+          </label>
+        ))}
+      </div>
+      <button onClick={handleSubmit}>Create Event</button>
     </div>
   );
 };

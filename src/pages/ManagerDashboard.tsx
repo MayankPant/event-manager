@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
-import CalendarView from '../Components/CalenderView';
-import EventForm from '../Components/EventForm';
 import TagManager from '../Components/TagManager';
+import EventForm from '../Components/EventForm';
 
 const ManagerDashboard: React.FC = () => {
-  const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
+  const [tags, setTags] = useState<string[]>(['Meeting', 'Deadline', 'Personal', 'Training']);
+
+  const handleAddTag = (tag: string) => {
+    setTags((prevTags) => [...prevTags, tag]);
+  };
+
+  const handleDeleteTag = (tag: string) => {
+    // Check if the tag is in use (optional logic)
+    const inUse = false; // Replace with actual logic
+    if (inUse) {
+      alert(`Cannot delete tag "${tag}" because it is in use.`);
+    } else {
+      setTags((prevTags) => prevTags.filter((t) => t !== tag));
+    }
+  };
+
+  const handleCreateEvent = (event: any) => {
+    console.log('Event created by manager:', event);
+  };
 
   return (
     <div>
       <h1>Manager Dashboard</h1>
-      
-      {/* Event Management */}
-      <EventForm userRole="manager" selectedEmployee={selectedEmployee} />
+      {/* Tag Management */}
+      <TagManager tags={tags} onAddTag={handleAddTag} onDeleteTag={handleDeleteTag} />
 
-      {/* Calendar View */}
-      <CalendarView userRole="manager" />
-
-      {/* Employee Selection */}
-      <div>
-        <h2>Manage Employee Events</h2>
-        <select
-          value={selectedEmployee || ''}
-          onChange={(e) => setSelectedEmployee(e.target.value)}
-        >
-          <option value="">Select Employee</option>
-          <option value="employee1">Employee 1</option>
-          <option value="employee2">Employee 2</option>
-        </select>
-      </div>
+      {/* Event Creation Form */}
+      <EventForm availableTags={tags} onCreateEvent={handleCreateEvent} />
     </div>
   );
 };
