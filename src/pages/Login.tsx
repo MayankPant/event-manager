@@ -17,7 +17,7 @@ const Login = () => {
   const [loginButtonLoader, setLoginButtonLoader] = useState<boolean>(false);
   const [signupButtonLoader, setSignupButtonLoader] = useState<boolean>(false);
   const {login, isAuthenticated, isAdmin} = React.useContext(TokenContext);
-
+  const navigate = useNavigate()
 
 
     const[username, setUsername] = useState<string>('');
@@ -53,6 +53,12 @@ const Login = () => {
         }
         alert("Login Failed");
         setLoginButtonLoader(false);
+  }
+
+  const routeSignUp = () => {
+    setSignupButtonLoader(true);
+    navigate('/signup');
+    setSignupButtonLoader(false);
   }
 
   const theme = useTheme();
@@ -124,6 +130,7 @@ const Login = () => {
           loadingPosition="center"
           children={"SIGN UP"}
           variant="contained"
+          onClick={routeSignUp}
           sx={{ width: "100%", backgroundColor: theme.palette.secondary.main }}
         />
         <span style={{color: theme.palette.text.primary}}>By signing in, you agree to our Terms and Conditions and Privacy Policy</span>

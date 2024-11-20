@@ -11,7 +11,7 @@ import DarkMode from "./Components/DarkMode";
 import { TokenContext } from "./context/TokenContext";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
 import ManagerDashboard from "./pages/ManagerDashboard";
-
+import SignUp from "./pages/Signup";
 // Private route component
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { isAuthenticated } = useContext(TokenContext);
@@ -55,22 +55,21 @@ function App() {
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <CssBaseline />
       <div style={styles} className="App">
-        <BrowserRouter>
-          <header className="App-header">
-            <Header />
-          </header>
-          <main className="App-main">
-            <Routes>
-              <Route path="/" element={<Navigate to={"/login"} />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/employee" element={<EmployeeDashboard />} />
-              <Route path="/manager" element={<ManagerDashboard />} />
-            </Routes>
-          </main>
-          <footer style={styles} className="App-footer">
-            <DarkMode themeToggle={themeToggle} />
-          </footer>
-        </BrowserRouter>
+        <header className="App-header">
+          <Header />
+        </header>
+        <main style={styles} className="App-main">
+          <Routes>
+            <Route path="/" element={<Navigate to={"/login"} />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/employee" element={<EmployeeDashboard />} />
+            <Route path="/manager" element={<ManagerDashboard />} />
+          </Routes>
+        </main>
+        <footer style={styles} className="App-footer">
+          <DarkMode themeToggle={themeToggle} />
+        </footer>
       </div>
     </ThemeProvider>
   );
