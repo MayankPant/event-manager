@@ -12,6 +12,7 @@ import { TokenContext } from "./context/TokenContext";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
 import ManagerDashboard from "./pages/ManagerDashboard";
 import SignUp from "./pages/Signup";
+import { Card } from "@mui/material";
 // Private route component
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { isAuthenticated } = useContext(TokenContext);
@@ -55,9 +56,9 @@ function App() {
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <CssBaseline />
       <div style={styles} className="App">
-        <header className="App-header">
-          <Header />
-        </header>
+      <header className="App-header">
+        <Header />
+      </header>
         <main style={styles} className="App-main">
           <Routes>
             <Route path="/" element={<Navigate to={"/login"} />} />

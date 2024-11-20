@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import TagManager from '../Components/TagManager';
 import EventForm from '../Components/EventForm';
 import data from '../events';
-
+import { useTheme } from '@mui/material';
+import {FormLabel} from '@mui/material';
 const ManagerDashboard: React.FC = () => {
   const [tags, setTags] = useState<string[]>(['Meeting', 'Deadline', 'Personal', 'Training']);
 
@@ -16,9 +17,15 @@ const ManagerDashboard: React.FC = () => {
     null
   );
 
+  const theme = useTheme();
+
+  const styles = {
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.text.primary
+  }
 
   const handleDeleteTag = (tag: string) => {
-    // Check if the tag is in use (optional logic)
+    
     const inUse = false; // Replace with actual logic
     if (inUse) {
       alert(`Cannot delete tag "${tag}" because it is in use.`);
@@ -52,8 +59,8 @@ const ManagerDashboard: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Manager Dashboard</h1>
+    <div style={styles} className="employee-dashboard">
+      <FormLabel sx={{fontWeight: '800', fontSize: '1.5em', color: theme.palette.text.primary}}>Manager Dashboard</FormLabel>
       {/* Tag Management */}
       <TagManager tags={tags} onAddTag={handleAddTag} onDeleteTag={handleDeleteTag} />
 

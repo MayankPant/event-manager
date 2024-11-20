@@ -24,7 +24,16 @@ interface CalendarEvent {
   interface PrivateRouteProps {
     children: import('react').JSX.Element;
 }
-  
+interface RecurrenceFormData {
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  recurrenceRule: string,
+  created_by: number;
+  description?: string;
+  location?: string;
+  id: number;
+}
 
 
 

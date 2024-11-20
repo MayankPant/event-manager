@@ -1,4 +1,7 @@
-/* Example styles to enhance FullCalendar look */
+.calender{
+  width: 70%;
+}
+
 .fc-toolbar-title {
     font-size: 1.5rem;
     font-weight: bold;

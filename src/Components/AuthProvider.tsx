@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { TokenContext } from "../context/TokenContext";
 import axios from "axios";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface PropType {
   children: React.ReactElement;

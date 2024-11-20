@@ -6,7 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayjs from 'dayjs';
 import data  from '../events';
-
+import '../styles/CalenderView.css'
 
 interface CalendarViewProps {
   userRole: 'manager' | 'employee';
@@ -126,7 +126,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ userRole }) => {
   };
 
   return (
-    <div>
+    <div className='calender'>
       <h2>{userRole === 'manager' ? 'Team' : 'My'} Calendar</h2>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -135,6 +135,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ userRole }) => {
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay',
         }}
+        
         initialView="dayGridMonth"
         editable={userRole === 'manager'}
         selectable={userRole === 'manager'}
