@@ -42,7 +42,7 @@ const NavBar = () => {
                 <NavItem navItemName="Dashboard" styles={{color: theme.palette.text.primary}} routeTo="dashboard" />
                 <NavItem navItemName="Documentation" styles={{color: theme.palette.text.primary}} routeTo="documentation" />
                 <NavItem navItemName="Community" styles={{color: theme.palette.text.primary}} routeTo="community"  />
-                <NavItem navItemName="Sign in" styles={{backgroundColor: theme.palette.primary.main, color: theme.palette.text.primary}} routeTo="signin" />
+                <NavItem navItemName="Sign in" styles={{backgroundColor: theme.palette.primary.main, color: theme.palette.text.primary}} routeTo="signup" />
                 <IconButton children={<Logout/>}  onClick={logout}/>
             </div>
             

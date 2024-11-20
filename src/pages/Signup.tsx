@@ -90,12 +90,6 @@ const SignUp = () => {
     color: theme.palette.text.primary,
   };
 
-  if (isAuthenticated)
-    return isAdmin ? (
-      <Navigate to={"/manager"} />
-    ) : (
-      <Navigate to={"/employee"} />
-    );
 
   return (
     <div style={styles} className="login-wrapper">
