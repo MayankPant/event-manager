@@ -24,7 +24,7 @@ const Logo = ({ logo, title}: PropType) => {
 
 
 const NavBar = () => {
-    const {logout, isAuthenticated} = useContext(TokenContext);
+    const {logout, isAuthenticated, isAdmin} = useContext(TokenContext);
     const theme = useTheme();
     const navBarStyles =  {
         backgroundColor: theme.palette.background.default,
@@ -39,7 +39,7 @@ const NavBar = () => {
                 <Logo logo={eventmanager} title="EVENT MANAGER"/>
             </div>
             <div className="navitems-wrapper">
-                <NavItem navItemName="Dashboard" styles={{color: theme.palette.text.primary}} routeTo="dashboard" />
+                <NavItem navItemName="Dashboard" styles={{color: theme.palette.text.primary}} routeTo= 'dashboard' />
                 <NavItem navItemName="Documentation" styles={{color: theme.palette.text.primary}} routeTo="documentation" />
                 <NavItem navItemName="Community" styles={{color: theme.palette.text.primary}} routeTo="community"  />
                 <NavItem navItemName="Sign in" styles={{backgroundColor: theme.palette.primary.main, color: theme.palette.text.primary}} routeTo="signup" />
